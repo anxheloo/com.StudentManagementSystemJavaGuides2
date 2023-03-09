@@ -10,22 +10,21 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "role")
-public class Role {
+@Table(name = "token")
+public class Token {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String name;
+    private String token;
 
-    public Role(Long id)
-    {
+
+    public Token(Long id){
         this.id = id;
     }
 
-    public Role(String name)
-    {
-        this.name=name;
+    public Token(String token){
+        this.token = token;
     }
 
 }

@@ -9,7 +9,10 @@
         href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
         integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
         crossorigin="anonymous">
-
+  <script
+          src="https://code.jquery.com/jquery-3.6.3.min.js"
+          integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU="
+          crossorigin="anonymous"></script>
 </head>
 <body>
 
@@ -37,7 +40,7 @@
     <div class = "col-md-6 col-md-offset-3">
 
       <h1> User Login Page </h1>
-      <form th:action="@{/login}" method="POST">
+      <form th:action="@{/login}" method="POST" id="loginform">
 
         <!-- error message -->
         <div th:if="${param.error}">
@@ -86,5 +89,51 @@
     </div>
   </div>
 </div>
+<script>
+
+  $("#login-submit").click(function(e){
+    e.preventDefault()
+
+    const username = $("#username").val()
+    const password = $("#password").val()
+
+    console.log("username:", username)
+    console.log("password:", password)
+
+    authenticate(username, password)
+  })
+
+  function authenticate(username, password) {
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+
+    var raw = JSON.stringify({
+      "username": username,
+      "password": password
+    });
+
+    var requestOptions = {
+      method: 'POST',
+      headers: myHeaders,
+      body: raw,
+      redirect: 'follow'
+    };
+
+    fetch("http://localhost:8080/authenticate", requestOptions)
+      .then(response => response.json())
+      .then(result => {
+
+        console.log(result)
+        console.log("result",result.jwtToken)
+
+        $("#loginform").submit()
+      })
+      .catch(error => console.log('error', error));
+  }
+
+</script>
+
 </body>
+
+<!--        localStorage.setItem('token', result.jwtToken);-->
 </html>
