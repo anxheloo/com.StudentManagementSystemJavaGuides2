@@ -21,7 +21,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.stream.Collectors;
 
-@EnableWebSecurity
+
 @SpringBootApplication
 public class Application implements CommandLineRunner {
 
@@ -49,35 +49,41 @@ public class Application implements CommandLineRunner {
 	public void run(String... args) throws Exception {
 
 //		Create Students to test the app
-//		Student student1=new Student("Anxhelo","Cenollari","anxhelo@gmail.com");
-//		studentRepository.save(student1);
-//
-//		Student student2=new Student("xhoni","nixho","xhoni@gmail.com");
-//		studentRepository.save(student2);
-//
-//		Student student3=new Student("Tony","Stark","tony@gmail.com");
-//		studentRepository.save(student3);
+		Student student1=new Student("Anxhelo","Cenollari","anxhelo@gmail.com");
+		studentRepository.save(student1);
 
-//		Create Subjects to test the app
-//		Subject subject1=new Subject("Physics");
-//		subjectRepository.save(subject1);
-//
-//		Subject subject2=new Subject("Programming");
-//		subjectRepository.save(subject2);
-//
-//		Subject subject3=new Subject("Math");
-//		subjectRepository.save(subject3);
+		Student student2=new Student("xhoni","nixho","xhoni@gmail.com");
+		studentRepository.save(student2);
+
+		Student student3=new Student("Tony","Stark","tony@gmail.com");
+		studentRepository.save(student3);
+
+	//	Create Subjects to test the app
+		Subject subject1=new Subject("Physics");
+		subjectRepository.save(subject1);
+
+		Subject subject2=new Subject("Programming");
+		subjectRepository.save(subject2);
+
+		Subject subject3=new Subject("Math");
+		subjectRepository.save(subject3);
 
 		//Create Roles to test  the app
-//		Role role1 = new Role("User");
-//		roleRepository.save(role1);
-//		Role role2 = new Role("Admin");
-//		roleRepository.save(role2);
+		Role role1 = new Role("User");
+		roleRepository.save(role1);
+		Role role2 = new Role("Admin");
+		roleRepository.save(role2);
 
 		//Create Admin role to test the app
-//		User admin = new User("Nixhi","Nixhi","nixhi@gmail.com", passwordEncoder.encode("nixhi123"), Arrays.asList(role2));
+		User admin = new User("Nixhi","Nixhi","nixhi@gmail.com", passwordEncoder.encode("nixhi123"), Arrays.asList(role2));
+		userRepository.save(admin);
+		User user = new User("Noel","Ceno","noel@gmail.com", passwordEncoder.encode("noel123"), Arrays.asList(role1));
+		userRepository.save(user);
+
+		//For Token Class
+//		User admin = new User("Nixhi","Nixhi","nixhi@gmail.com", passwordEncoder.encode("nixhi123"), Arrays.asList(role2),"");
 //		userRepository.save(admin);
-//		User user = new User("Noel","Ceno","noel@gmail.com", passwordEncoder.encode("noel123"), Arrays.asList(role1));
+//		User user = new User("Noel","Ceno","noel@gmail.com", passwordEncoder.encode("noel123"), Arrays.asList(role1),"");
 //		userRepository.save(user);
 
 		
