@@ -1,6 +1,7 @@
 package com.StudentManagementSystemJavaGuides.com.StudentManagementSystemJavaGuides.Controller;
 
-import com.StudentManagementSystemJavaGuides.com.StudentManagementSystemJavaGuides.Entity.Token;
+import com.StudentManagementSystemJavaGuides.com.StudentManagementSystemJavaGuides.Repository.UserRepository;
+import com.StudentManagementSystemJavaGuides.com.StudentManagementSystemJavaGuides.Token.Token;
 import com.StudentManagementSystemJavaGuides.com.StudentManagementSystemJavaGuides.Entity.User;
 //import com.StudentManagementSystemJavaGuides.com.StudentManagementSystemJavaGuides.JWT.AuthenticationRequest;
 //import com.StudentManagementSystemJavaGuides.com.StudentManagementSystemJavaGuides.JWT.AuthenticationResponse;
@@ -8,8 +9,9 @@ import com.StudentManagementSystemJavaGuides.com.StudentManagementSystemJavaGuid
 import com.StudentManagementSystemJavaGuides.com.StudentManagementSystemJavaGuides.JWT.AuthenticationRequest;
 import com.StudentManagementSystemJavaGuides.com.StudentManagementSystemJavaGuides.JWT.AuthenticationResponse;
 import com.StudentManagementSystemJavaGuides.com.StudentManagementSystemJavaGuides.JWT.JwtUtil;
-import com.StudentManagementSystemJavaGuides.com.StudentManagementSystemJavaGuides.Repository.TokenRepository;
 import com.StudentManagementSystemJavaGuides.com.StudentManagementSystemJavaGuides.Security.CustomUserDetailsService;
+import com.StudentManagementSystemJavaGuides.com.StudentManagementSystemJavaGuides.Token.TokenRepository;
+import com.StudentManagementSystemJavaGuides.com.StudentManagementSystemJavaGuides.Token.TokenType;
 import com.StudentManagementSystemJavaGuides.com.StudentManagementSystemJavaGuides.UserService.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -41,6 +43,9 @@ public class MainController {
 
     @Autowired
     TokenRepository tokenRepository;
+
+    @Autowired
+    UserRepository userRepository;
 
 
 
@@ -92,20 +97,12 @@ public class MainController {
             throw new Exception("Incorrect Username or Password!",e);
         }
 
-        final UserDetails userDetails =
-                customUserDetailsService.loadUserByUsername(authenticationRequest.getUsername());
-        String jwt = jwtUtil.generateToken(userDetails);
+//        final UserDetails userDetails =
+//                customUserDetailsService.loadUserByUsername(authenticationRequest.getUsername());
+        var user = userRepository.findByEmail(authenticationRequest.getUsername()).orElseThrow();
+        String jwt = jwtUtil.generateToken((UserDetails) user);
 
-        //WE CAN ALSO USE THIS WAY TO RETURN THE TOKEN -> with this in the header: //    public AuthenticationResponse authenticate(@RequestBody @Valid final AuthenticationRequest authenticationRequest) {
-//        final AuthenticationResponse authenticationResponse = new AuthenticationResponse();
-//        authenticationResponse.setJwtToken(jwtUtil.generateToken(userDetails));
-//        return authenticationResponse;
-
-        Token token = new Token();
-//        token.setId(); // set the user ID associated with the token
-        token.setToken(jwt); // set the token string
-//        token.setUser((User) userDetails);
-        tokenRepository.save(token); // save the token to the database
+        saveUserToken(user, jwt);
 
         return ResponseEntity.ok(new AuthenticationResponse(jwt));
 
@@ -113,7 +110,16 @@ public class MainController {
 
 
 
-
+    private void saveUserToken(User user, String jwtToken) {
+        var token = Token.builder()
+                .user(user)
+                .token(jwtToken)
+                .tokenType(TokenType.BEARER)
+                .expired(false)
+                .revoked(false)
+                .build();
+        tokenRepository.save(token);
+    }
 
 
 
