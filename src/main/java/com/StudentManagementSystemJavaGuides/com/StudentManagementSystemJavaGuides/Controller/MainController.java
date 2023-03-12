@@ -9,7 +9,6 @@ import com.StudentManagementSystemJavaGuides.com.StudentManagementSystemJavaGuid
 import com.StudentManagementSystemJavaGuides.com.StudentManagementSystemJavaGuides.JWT.AuthenticationRequest;
 import com.StudentManagementSystemJavaGuides.com.StudentManagementSystemJavaGuides.JWT.AuthenticationResponse;
 import com.StudentManagementSystemJavaGuides.com.StudentManagementSystemJavaGuides.JWT.JwtUtil;
-import com.StudentManagementSystemJavaGuides.com.StudentManagementSystemJavaGuides.Security.CustomUserDetailsService;
 import com.StudentManagementSystemJavaGuides.com.StudentManagementSystemJavaGuides.Token.TokenRepository;
 import com.StudentManagementSystemJavaGuides.com.StudentManagementSystemJavaGuides.Token.TokenType;
 import com.StudentManagementSystemJavaGuides.com.StudentManagementSystemJavaGuides.UserService.UserService;
@@ -35,8 +34,8 @@ public class MainController {
     @Autowired
     AuthenticationManager authenticationManager;
 
-    @Autowired
-    CustomUserDetailsService customUserDetailsService;
+//    @Autowired
+//    CustomUserDetailsService customUserDetailsService;
 
     @Autowired
     JwtUtil jwtUtil;

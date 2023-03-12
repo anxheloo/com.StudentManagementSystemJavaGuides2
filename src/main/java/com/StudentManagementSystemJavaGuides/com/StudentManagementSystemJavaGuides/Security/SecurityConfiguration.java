@@ -4,6 +4,7 @@ package com.StudentManagementSystemJavaGuides.com.StudentManagementSystemJavaGui
 //import com.StudentManagementSystemJavaGuides.com.StudentManagementSystemJavaGuides.JWT.JwtRequestFilter;
 import com.StudentManagementSystemJavaGuides.com.StudentManagementSystemJavaGuides.JWT.AuthenticationResponse;
 import com.StudentManagementSystemJavaGuides.com.StudentManagementSystemJavaGuides.JWT.JwtRequestFilter;
+import com.StudentManagementSystemJavaGuides.com.StudentManagementSystemJavaGuides.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,6 +16,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -29,6 +31,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Autowired
     JwtRequestFilter jwtRequestFilter;
 
+    @Autowired
+    UserRepository userRepository;
+
 
 
 //    WAY 1 - We can Also use this way for custom user details
@@ -36,25 +41,31 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 //    CustomUserDetailsService customUserDetailsService;
 
 //    WAY - 2
-    @Bean
-    public UserDetailsService userDetailsService()
-    {
-        return new CustomUserDetailsService();
-    }
+//    @Bean
+//    public UserDetailsService userDetailsService()
+//    {
+//        return new CustomUserDetailsService();
+//    }
 
-    @Bean
-    public PasswordEncoder passwordEncoder()
-    {
-        return new BCryptPasswordEncoder();
-    }
+//    @Bean
+//    public UserDetailsService userDetailsService(){
+//        return username -> userRepository.findByEmail(username)
+//                .orElseThrow( () -> new UsernameNotFoundException("User not found "));
+//    }
+//
+//    @Bean
+//    public PasswordEncoder passwordEncoder()
+//    {
+//        return new BCryptPasswordEncoder();
+//    }
 
 
-    @Bean
-    @Override
-    public AuthenticationManager authenticationManagerBean() throws Exception
-    {
-        return super.authenticationManagerBean();
-    }
+//    @Bean
+//    @Override
+//    public AuthenticationManager authenticationManagerBean() throws Exception
+//    {
+//        return super.authenticationManagerBean();
+//    }
 
 
 //    @Bean
@@ -67,11 +78,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 //    }
 
 
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+//    @Override
+//    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 
 //        WAY 1 - Using UserDetailsService @Bean
-          auth.userDetailsService(userDetailsService()).passwordEncoder(passwordEncoder());
+//          auth.userDetailsService(userDetailsService()).passwordEncoder(passwordEncoder());
 
 //        WAY 2 - Using DaoAuthenticationProvider @Bean
 //        auth.authenticationProvider(daoAuthenticationProvider());
@@ -81,7 +92,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 //        String passwordEncodedUser = passwordEncoder().encode("user");
 //        auth.inMemoryAuthentication().withUser("user").password(passwordEncoder().encode("user")).roles("User");
 //        auth.inMemoryAuthentication().withUser("admin").password(passwordEncoder().encode("admin")).roles("Admin");
-    }
+//    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -120,7 +131,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     }
 
-//    @Autowired
+//    @Bean
 //    public void configureGlobal(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception
 //    {
 //        authenticationManagerBuilder.userDetailsService(userDetailsService()).passwordEncoder(passwordEncoder());

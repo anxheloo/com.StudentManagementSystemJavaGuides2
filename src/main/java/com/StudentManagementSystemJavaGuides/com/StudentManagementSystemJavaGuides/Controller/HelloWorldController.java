@@ -3,7 +3,6 @@ package com.StudentManagementSystemJavaGuides.com.StudentManagementSystemJavaGui
 import com.StudentManagementSystemJavaGuides.com.StudentManagementSystemJavaGuides.JWT.AuthenticationRequest;
 import com.StudentManagementSystemJavaGuides.com.StudentManagementSystemJavaGuides.JWT.AuthenticationResponse;
 import com.StudentManagementSystemJavaGuides.com.StudentManagementSystemJavaGuides.JWT.JwtUtil;
-import com.StudentManagementSystemJavaGuides.com.StudentManagementSystemJavaGuides.Security.CustomUserDetailsService;
 import com.StudentManagementSystemJavaGuides.com.StudentManagementSystemJavaGuides.UserService.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,8 +24,8 @@ public class HelloWorldController {
     @Autowired
     AuthenticationManager authenticationManager;
 
-    @Autowired
-    CustomUserDetailsService customUserDetailsService;
+//    @Autowired
+//    CustomUserDetailsService customUserDetailsService;
 
     @Autowired
     JwtUtil jwtUtil;

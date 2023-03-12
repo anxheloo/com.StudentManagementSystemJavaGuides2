@@ -129,11 +129,12 @@
         $("#loginform").submit()
       })
       .catch(error => console.log('error', error));
+
+       localStorage.setItem('token', result.jwtToken);
   }
 
 </script>
 
 </body>
 
-        localStorage.setItem('token', result.jwtToken);
 </html>
